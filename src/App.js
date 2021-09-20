@@ -1,21 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 function App() {
-  const [counter, setCounter] = React.useState(0);
+  const [joke, setJoke] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
-  const onDecrement = () => {
-    if (counter > 0)
-      setCounter(counter - 1);
+  React.useEffect(() => {
+    const fetchJoke = async () => {
+      const data = await fetch('https://api.chucknorris.io/jokes/random')
+        .then(res => res.json());
+      setJoke(data);
+      setIsLoading(false);
+    };
+    fetchJoke();
+  }, []);
+
+  if (isLoading) {
+    return <>Loading...</>;
   }
-
   return (
     <div>
-      <h1>
-        This is counter app
-        <div id="counter-value">{counter}</div>
-        <button id="increment-btn" onClick={() => setCounter(counter + 1)}>Increment</button>
-        <button id="decrement-btn" onClick={onDecrement}>Decrement</button>
-      </h1>
+      <img src={joke.icon_url} alt="logo" />
+      <p>{joke.value}</p>
     </div>
   );
 }
