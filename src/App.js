@@ -4,7 +4,7 @@ function App() {
   const [joke, setJoke] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchJoke = async () => {
       const data = await fetch('https://api.chucknorris.io/jokes/random')
         .then(res => res.json());
